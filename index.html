@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Tally — a calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="calculator" role="application" aria-label="Calculator">
+
+    <div class="history" id="history" aria-live="polite" aria-label="Calculation history"></div>
+
+    <div class="error-toast" id="error-toast" role="alert" hidden>⚠️ Error, try again!</div>
+
+    <div class="screen">
+      <div class="expression" id="expression"></div>
+      <div class="display" id="display">0</div>
+    </div>
+
+    <div class="keys">
+      <button class="key key-fn" data-action="clear">C</button>
+      <button class="key key-fn" data-action="backspace" aria-label="Backspace">⌫</button>
+      <button class="key key-fn" data-action="append" data-value="(">(</button>
+      <button class="key key-fn" data-action="append" data-value=")">)</button>
+      <button class="key key-op" data-action="append" data-value="÷">÷</button>
+
+      <button class="key key-fn" data-action="append" data-value="sin(">sin</button>
+      <button class="key key-fn" data-action="append" data-value="cos(">cos</button>
+      <button class="key key-fn" data-action="append" data-value="tan(">tan</button>
+      <button class="key key-fn" data-action="append" data-value="sqrt(">√</button>
+      <button class="key key-fn" data-action="append" data-value="^2">x²</button>
+
+      <button class="key key-fn" data-action="append" data-value="ln(">ln</button>
+      <button class="key key-fn" data-action="append" data-value="log(">log</button>
+      <button class="key key-fn" data-action="append" data-value="^">xʸ</button>
+      <button class="key key-fn" data-action="append" data-value="π">π</button>
+      <button class="key key-fn" data-action="append" data-value="e">e</button>
+
+      <button class="key key-num" data-action="digit" data-digit="7">7</button>
+      <button class="key key-num" data-action="digit" data-digit="8">8</button>
+      <button class="key key-num" data-action="digit" data-digit="9">9</button>
+      <button class="key key-op" data-action="append" data-value="×">×</button>
+      <button class="key key-op" data-action="append" data-value="−">−</button>
+
+      <button class="key key-num" data-action="digit" data-digit="4">4</button>
+      <button class="key key-num" data-action="digit" data-digit="5">5</button>
+      <button class="key key-num" data-action="digit" data-digit="6">6</button>
+      <button class="key key-op" data-action="append" data-value="+">+</button>
+      <button class="key key-fn" data-action="toggle-angle">DEG</button>
+
+      <button class="key key-num" data-action="digit" data-digit="1">1</button>
+      <button class="key key-num" data-action="digit" data-digit="2">2</button>
+      <button class="key key-num" data-action="digit" data-digit="3">3</button>
+      <button class="key key-fn" data-action="append" data-value="!">x!</button>
+
+      <button class="key key-num key-zero" data-action="digit" data-digit="0">0</button>
+      <button class="key key-num" data-action="decimal">.</button>
+      <button class="key key-fn" data-action="append" data-value="%">%</button>
+      <button class="key key-fn" data-action="append" data-value="^(-1)">1/x</button>
+
+      <button class="key key-equals" data-action="equals">=</button>
+    </div>
+
+  </main>
+
+<script src="script.js"></script>
+</body>
+</html>
