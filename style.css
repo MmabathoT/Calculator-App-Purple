@@ -24,8 +24,39 @@
   --equals-text: #FBF7FF;
 
   --history-text: #444444;
+  --field-background: #FFFFFF;
+  --settings-card: #FAFAFA;
+  --settings-muted: #666666;
+  --settings-link: #7623A8;
 
+  color-scheme: light;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #15121C;
+  --panel: #211C2B;
+  --panel-border: #3D354B;
+  --display-text: #F7F3FC;
+  --display-dim: #C6BDCF;
+  --key-num: #2A2435;
+  --key-num-hi: #383047;
+  --key-num-text: #F7F3FC;
+  --key-fn: #382A4B;
+  --key-fn-hi: #4B3764;
+  --key-fn-text: #D9B8FF;
+  --key-op: #493364;
+  --key-op-hi: #5D427C;
+  --key-op-text: #F0DEFF;
+  --equals-a: #8B46E8;
+  --equals-b: #B53ACD;
+  --equals-text: #FFFFFF;
+  --history-text: #D0C7D9;
+  --field-background: #2A2435;
+  --settings-card: #292331;
+  --settings-muted: #C6BDCF;
+  --settings-link: #D9B8FF;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -40,13 +71,14 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   padding: 24px 16px;
 }
 
 .calculator {
   position: relative;
+  margin: 0 auto;
   width: 100%;
   max-width: 520px;
   background: var(--panel);
@@ -60,6 +92,167 @@ body {
     0 1px 0 rgba(0, 0, 0, 0.04) inset;
 }
 
+.app-header {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 34px;
+}
+.app-header h1 {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+  color: var(--display-dim);
+  font-size: 15px;
+  font-weight: 600;
+}
+.window-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+.window-control {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--display-dim);
+  font: 21px/1 'Inter', sans-serif;
+  cursor: pointer;
+}
+.window-control:hover { background: var(--key-fn); color: var(--display-text); }
+.window-control-close:hover { background: #C42B3B; color: #fff; }
+.window-control:focus-visible {
+  outline: 2px solid var(--equals-a);
+  outline-offset: 2px;
+}
+.window-control-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.closed-screen:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding: 42px 12px;
+  text-align: center;
+}
+.closed-screen h1 { margin: 0; color: var(--display-text); font-size: 24px; }
+.closed-screen p { margin: 0 0 8px; color: var(--display-dim); }
+.calculator.is-minimized > :not(.app-header):not(.closed-screen) { display: none; }
+.calculator.is-minimized { padding-bottom: 12px; }
+.calculator.is-closed > :not(.closed-screen) { display: none; }
+.calculator.is-closed {
+  position: fixed;
+  z-index: 10;
+  top: 50%;
+  left: 50%;
+  width: min(360px, calc(100vw - 32px));
+  transform: translate(-50%, -50%);
+}
+.calculator:fullscreen {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  border: 0;
+  border-radius: 0;
+}
+.calculator:fullscreen .calculator-view,
+.calculator:fullscreen .mode-panel {
+  width: min(100%, 720px);
+  margin: 0 auto;
+}
+.calculator:fullscreen .keys { gap: clamp(8px, 1.2vmin, 16px); }
+.calculator:fullscreen .key { height: clamp(44px, 8vh, 84px); }
+.menu-toggle, .swap-units {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--key-fn-text);
+  font-size: 21px;
+  cursor: pointer;
+}
+.menu-toggle:hover, .swap-units:hover { background: var(--key-fn); }
+.menu-backdrop:not([hidden]) {
+  position: fixed;
+  z-index: 4;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: rgba(0, 0, 0, 0.22);
+}
+.mode-menu {
+  position: absolute;
+  z-index: 5;
+  top: 42px;
+  left: -18px;
+  width: min(340px, calc(100vw - 32px));
+  max-height: min(78vh, 660px);
+  overflow-y: auto;
+  padding: 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 0 18px 18px 0;
+  background: var(--panel);
+  box-shadow: 0 16px 40px rgba(42, 31, 77, 0.2);
+}
+.menu-footer {
+  position: sticky;
+  bottom: -12px;
+  margin: 8px -12px -12px;
+  padding: 8px 12px 12px;
+  border-top: 1px solid var(--panel-border);
+  background: var(--panel);
+}
+.mode-menu[hidden], .menu-backdrop[hidden] { display: none; }
+.menu-heading {
+  margin: 12px 10px 6px;
+  color: var(--display-dim);
+  font-size: 13px;
+  font-weight: 700;
+}
+.mode-option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 46px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--display-text);
+  font: inherit;
+  font-size: 15px;
+  text-align: left;
+  cursor: pointer;
+}
+.mode-option > :first-child, .mode-option:first-of-type { color: var(--key-fn-text); }
+.mode-option:hover, .mode-option.selected { background: var(--key-fn); }
+
+@media (min-height: 900px) {
+  body { align-items: center; }
+}
+
 .error-toast[hidden] { display: none; }
 .error-toast {
   position: absolute;
@@ -69,9 +262,9 @@ body {
   padding: 12px 18px;
   border: 1px solid rgba(176, 38, 211, 0.24);
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.96);
+  background: var(--panel);
   box-shadow: 0 12px 32px rgba(42, 31, 77, 0.2);
-  color: #4C2A8C;
+  color: var(--key-fn-text);
   font-size: 15px;
   font-weight: 700;
   text-align: center;
@@ -104,6 +297,7 @@ body {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11.5px;
 }
+.history:empty { display: none; }
 .history-entry {
   white-space: nowrap;
   overflow: hidden;
@@ -145,6 +339,138 @@ body {
   scrollbar-width: none;
 }
 .display::-webkit-scrollbar { display: none; }
+.calculator-view[hidden], .mode-panel[hidden], .tool-view[hidden] { display: none; }
+.mode-panel { padding: 8px 4px 2px; }
+.tool-view h2 {
+  margin: 8px 0 20px;
+  color: var(--display-text);
+  font-size: 22px;
+}
+.tool-view > label, .programmer-view label, .converter-units label, .graph-range label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 14px 0;
+  color: var(--display-dim);
+  font-size: 13px;
+  font-weight: 600;
+}
+.tool-view input, .tool-view select {
+  width: 100%;
+  min-height: 44px;
+  padding: 9px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  background: var(--field-background);
+  color: var(--display-text);
+  font: 16px 'Inter', sans-serif;
+}
+.tool-view input:focus, .tool-view select:focus {
+  outline: 2px solid var(--equals-a);
+  outline-offset: 1px;
+}
+.graph-range, .converter-units { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.converter-units { grid-template-columns: 1fr 36px 1fr; align-items: end; gap: 8px; }
+.swap-units { margin-bottom: 14px; }
+.convert-button {
+  width: 100%;
+  min-height: 46px;
+  border: 0;
+  border-radius: 13px;
+  background: linear-gradient(135deg, var(--equals-a), var(--equals-b));
+  color: var(--equals-text);
+  font: 600 16px 'Inter', sans-serif;
+  cursor: pointer;
+}
+.tool-result {
+  min-height: 54px;
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 13px;
+  background: var(--key-fn);
+  color: var(--key-fn-text);
+  font: 600 18px 'JetBrains Mono', monospace;
+  overflow-wrap: anywhere;
+}
+.base-results { display: grid; gap: 8px; margin-top: 16px; }
+.base-result { display: flex; justify-content: space-between; gap: 12px; padding: 10px 12px; border-radius: 10px; background: var(--key-fn); font-family: 'JetBrains Mono', monospace; }
+.base-result strong { color: var(--key-fn-text); }
+.tool-status { min-height: 18px; margin: 8px 2px; color: var(--display-dim); font-size: 12px; }
+#graph-canvas { display: block; width: 100%; height: 280px; border: 1px solid var(--panel-border); border-radius: 12px; background: var(--field-background); }
+.settings-view h3 {
+  margin: 30px 0 10px;
+  color: var(--display-text);
+  font-size: 16px;
+  font-weight: 600;
+}
+.settings-view h2 + h3 { margin-top: 16px; }
+.settings-card {
+  overflow: hidden;
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  background: var(--settings-card);
+}
+.settings-card summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 76px;
+  padding: 14px 16px;
+  color: var(--display-text);
+  font-size: 15px;
+  cursor: pointer;
+  list-style: none;
+}
+.settings-card summary::-webkit-details-marker { display: none; }
+.settings-card summary::after {
+  content: '';
+  flex: 0 0 9px;
+  width: 9px;
+  height: 9px;
+  margin: 0 4px 5px 12px;
+  border-right: 2px solid var(--display-text);
+  border-bottom: 2px solid var(--display-text);
+  transform: rotate(45deg);
+  transition: transform 120ms ease;
+}
+.settings-card[open] summary::after { transform: rotate(225deg); margin-bottom: -5px; }
+.settings-card summary small {
+  display: block;
+  margin-top: 4px;
+  color: var(--settings-muted);
+  font-size: 12px;
+  font-weight: 400;
+}
+.setting-control {
+  display: grid;
+  grid-template-columns: minmax(52px, 0.35fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  margin: 0 16px;
+  padding: 0 0 4px;
+  color: var(--settings-muted);
+  font-size: 12px;
+}
+.setting-control select {
+  width: 100%;
+  max-width: 240px;
+  min-width: 0;
+  justify-self: end;
+}
+.settings-card .tool-status { padding: 0 16px; }
+.about-details {
+  padding: 0 16px 14px;
+  color: var(--settings-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.about-details p { margin: 10px 0; }
+.about-details a {
+  color: var(--settings-link);
+  text-decoration: none;
+}
+.about-details a:hover { text-decoration: underline; }
 
 /* --- keys --- */
 .keys {
@@ -157,9 +483,10 @@ body {
   font-family: 'Inter', sans-serif;
   font-size: 17px;
   font-weight: 600;
-  border: 1px solid #E5E5E5;
+  border: 1px solid var(--panel-border);
   border-radius: 18px;
-  aspect-ratio: 1 / 0.78;
+  height: clamp(38px, calc((100vh - 300px) / 8), 70px);
+  height: clamp(38px, calc((100dvh - 300px) / 8), 70px);
   cursor: pointer;
   transition: transform 90ms ease, filter 90ms ease, background 90ms ease;
 }
@@ -236,4 +563,5 @@ body {
   .keys { gap: 6px; }
   .key { border-radius: 14px; font-size: 16px; }
   .key-fn { font-size: 12px; }
+  .mode-menu { left: -14px; max-height: 76vh; }
 }

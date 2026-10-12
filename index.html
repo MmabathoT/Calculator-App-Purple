@@ -13,57 +13,184 @@
 
   <main class="calculator" role="application" aria-label="Calculator">
 
+    <header class="app-header">
+      <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open calculator modes" aria-expanded="false">☰</button>
+      <h1 id="mode-title">Standard</h1>
+      <div class="window-controls" aria-label="App window controls">
+        <button class="window-control" id="minimize-button" type="button" aria-label="Minimize app" aria-pressed="false" title="Minimize">−</button>
+        <button class="window-control" id="expand-button" type="button" aria-label="Enter fullscreen" title="Expand">□</button>
+        <button class="window-control window-control-close" id="close-button" type="button" aria-label="Close app" title="Close">×</button>
+      </div>
+      <span class="window-control-status" id="window-control-status" aria-live="polite"></span>
+      <button class="menu-backdrop" id="menu-backdrop" type="button" aria-label="Close calculator modes" hidden></button>
+      <nav class="mode-menu" id="mode-menu" aria-label="Calculator modes" hidden>
+        <p class="menu-heading">Calculator</p>
+        <button class="mode-option selected" type="button" data-mode="standard">▦ <span>Standard</span></button>
+        <button class="mode-option" type="button" data-mode="scientific">⚗ <span>Scientific</span></button>
+        <button class="mode-option" type="button" data-mode="graphing">⌁ <span>Graphing</span></button>
+        <button class="mode-option" type="button" data-mode="programmer">‹/› <span>Programmer</span></button>
+        <button class="mode-option" type="button" data-mode="date">▦ <span>Date calculation</span></button>
+        <p class="menu-heading">Converter</p>
+        <button class="mode-option" type="button" data-mode="converter" data-category="Currency">◉ <span>Currency</span></button>
+        <button class="mode-option" type="button" data-mode="converter" data-category="Volume">◇ <span>Volume</span></button>
+        <button class="mode-option" type="button" data-mode="converter" data-category="Length">↔ <span>Length</span></button>
+        <button class="mode-option" type="button" data-mode="converter" data-category="Weight and mass">⚖ <span>Weight and mass</span></button>
+        <button class="mode-option" type="button" data-mode="converter" data-category="Temperature">♨ <span>Temperature</span></button>
+        <button class="mode-option" type="button" data-mode="converter" data-category="Energy">ϟ <span>Energy</span></button>
+        <button class="mode-option" type="button" data-mode="converter" data-category="Area">▱ <span>Area</span></button>
+        <button class="mode-option" type="button" data-mode="converter" data-category="Speed">➤ <span>Speed</span></button>
+        <button class="mode-option" type="button" data-mode="converter" data-category="Time">◷ <span>Time</span></button>
+        <button class="mode-option" type="button" data-mode="converter" data-category="Power">ϟ <span>Power</span></button>
+        <button class="mode-option" type="button" data-mode="converter" data-category="Data">▣ <span>Data</span></button>
+        <button class="mode-option" type="button" data-mode="converter" data-category="Pressure">◉ <span>Pressure</span></button>
+        <button class="mode-option" type="button" data-mode="converter" data-category="Angle">∠ <span>Angle</span></button>
+        <div class="menu-footer">
+          <button class="mode-option" type="button" data-mode="settings">⚙ <span>Settings</span></button>
+        </div>
+      </nav>
+    </header>
+
+    <section class="closed-screen" id="closed-screen" aria-label="App closed" hidden>
+      <h1>Tally is closed</h1>
+      <p>The calculator is still open in this browser tab.</p>
+      <button class="convert-button" id="reopen-button" type="button">Reopen calculator</button>
+    </section>
+
     <div class="history" id="history" aria-live="polite" aria-label="Calculation history"></div>
 
     <div class="error-toast" id="error-toast" role="alert" hidden>⚠️ Error, try again!</div>
 
-    <div class="screen">
-      <div class="expression" id="expression"></div>
-      <div class="display" id="display">0</div>
+    <div class="calculator-view" id="calculator-view">
+      <div class="screen">
+        <div class="expression" id="expression"></div>
+        <div class="display" id="display">0</div>
+      </div>
+
+      <div class="keys">
+        <button class="key key-fn" data-action="clear">C</button>
+        <button class="key key-fn" data-action="backspace" aria-label="Backspace">⌫</button>
+        <button class="key key-fn" data-action="append" data-value="(">(</button>
+        <button class="key key-fn" data-action="append" data-value=")">)</button>
+        <button class="key key-op" data-action="append" data-value="÷">÷</button>
+
+        <button class="key key-fn key-scientific" data-action="append" data-value="sin(">sin</button>
+        <button class="key key-fn key-scientific" data-action="append" data-value="cos(">cos</button>
+        <button class="key key-fn key-scientific" data-action="append" data-value="tan(">tan</button>
+        <button class="key key-fn key-scientific" data-action="append" data-value="sqrt(">√</button>
+        <button class="key key-fn key-scientific" data-action="append" data-value="^2">x²</button>
+
+        <button class="key key-fn key-scientific" data-action="append" data-value="ln(">ln</button>
+        <button class="key key-fn key-scientific" data-action="append" data-value="log(">log</button>
+        <button class="key key-fn key-scientific" data-action="append" data-value="^">xʸ</button>
+        <button class="key key-fn key-scientific" data-action="append" data-value="π">π</button>
+        <button class="key key-fn key-scientific" data-action="append" data-value="e">e</button>
+
+        <button class="key key-num" data-action="digit" data-digit="7">7</button>
+        <button class="key key-num" data-action="digit" data-digit="8">8</button>
+        <button class="key key-num" data-action="digit" data-digit="9">9</button>
+        <button class="key key-op" data-action="append" data-value="×">×</button>
+        <button class="key key-op" data-action="append" data-value="−">−</button>
+
+        <button class="key key-num" data-action="digit" data-digit="4">4</button>
+        <button class="key key-num" data-action="digit" data-digit="5">5</button>
+        <button class="key key-num" data-action="digit" data-digit="6">6</button>
+        <button class="key key-op" data-action="append" data-value="+">+</button>
+        <button class="key key-fn key-scientific" data-action="toggle-angle">DEG</button>
+
+        <button class="key key-num" data-action="digit" data-digit="1">1</button>
+        <button class="key key-num" data-action="digit" data-digit="2">2</button>
+        <button class="key key-num" data-action="digit" data-digit="3">3</button>
+        <button class="key key-fn key-scientific" data-action="append" data-value="!">x!</button>
+
+        <button class="key key-num key-zero" data-action="digit" data-digit="0">0</button>
+        <button class="key key-num" data-action="decimal">.</button>
+        <button class="key key-fn" data-action="append" data-value="%">%</button>
+        <button class="key key-fn key-scientific" data-action="append" data-value="^(-1)">1/x</button>
+
+        <button class="key key-equals" data-action="equals">=</button>
+      </div>
     </div>
 
-    <div class="keys">
-      <button class="key key-fn" data-action="clear">C</button>
-      <button class="key key-fn" data-action="backspace" aria-label="Backspace">⌫</button>
-      <button class="key key-fn" data-action="append" data-value="(">(</button>
-      <button class="key key-fn" data-action="append" data-value=")">)</button>
-      <button class="key key-op" data-action="append" data-value="÷">÷</button>
+    <section class="mode-panel" id="mode-panel" hidden>
+      <section class="tool-view" id="graphing-view" hidden>
+        <h2>Graphing</h2>
+        <label>f(x) <input id="graph-expression" type="text" value="x^2" autocomplete="off" spellcheck="false"></label>
+        <div class="graph-range">
+          <label>x min <input id="graph-min" type="number" value="-10"></label>
+          <label>x max <input id="graph-max" type="number" value="10"></label>
+        </div>
+        <canvas id="graph-canvas" aria-label="Graph of the entered function"></canvas>
+        <p class="tool-status" id="graph-status" aria-live="polite"></p>
+      </section>
+      <section class="tool-view" id="programmer-view" hidden>
+        <h2>Programmer</h2>
+        <label>Number base
+          <select id="programmer-base"><option value="10">Decimal</option><option value="16">Hexadecimal</option><option value="8">Octal</option><option value="2">Binary</option></select>
+        </label>
+        <label>First number <input id="programmer-a" type="text" value="15" autocomplete="off"></label>
+        <label>Operation
+          <select id="programmer-operation">
+            <option value="add">Add (+)</option><option value="subtract">Subtract (-)</option>
+            <option value="multiply">Multiply (*)</option><option value="divide">Divide (/)</option>
+            <option value="and">AND</option><option value="or">OR</option><option value="xor">XOR</option>
+            <option value="not">NOT (first number)</option><option value="left">Shift left</option><option value="right">Shift right</option>
+          </select>
+        </label>
+        <label id="programmer-b-label">Second number <input id="programmer-b" type="text" value="5" autocomplete="off"></label>
+        <div class="base-results" id="programmer-result" aria-live="polite"></div>
+      </section>
+      <section class="tool-view" id="date-view" hidden>
+        <h2>Date calculation</h2>
+        <label>Calculation
+          <select id="date-operation"><option value="difference">Difference between dates</option><option value="add">Add days to a date</option><option value="subtract">Subtract days from a date</option></select>
+        </label>
+        <label>Start date <input id="date-start" type="date"></label>
+        <label id="date-end-label">End date <input id="date-end" type="date"></label>
+        <label id="date-days-label" hidden>Days <input id="date-days" type="number" value="30"></label>
+        <div class="tool-result" id="date-result" aria-live="polite"></div>
+      </section>
+      <section class="tool-view" id="converter-view" hidden>
+        <h2 id="converter-title">Converter</h2>
+        <label>Amount <input id="converter-amount" type="number" value="1" step="any"></label>
+        <div class="converter-units">
+          <label>From <select id="converter-from"></select></label>
+          <button id="swap-units" class="swap-units" type="button" aria-label="Swap units">⇄</button>
+          <label>To <select id="converter-to"></select></label>
+        </div>
+        <button id="convert-button" class="convert-button" type="button">Convert</button>
+        <div class="tool-result" id="converter-result" aria-live="polite"></div>
+        <p class="tool-status" id="converter-status" aria-live="polite"></p>
+      </section>
+      <section class="tool-view settings-view" id="settings-view" hidden>
+        <h2>Settings</h2>
+        <h3>Appearance</h3>
+        <details class="settings-card">
+          <summary>
+            <span>App theme<small>Select which app theme to display</small></span>
+          </summary>
+          <label class="setting-control" for="theme-select">Theme
+            <select id="theme-select">
+              <option value="system">Use device setting</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </label>
+          <p class="tool-status" id="theme-status" aria-live="polite"></p>
+        </details>
 
-      <button class="key key-fn" data-action="append" data-value="sin(">sin</button>
-      <button class="key key-fn" data-action="append" data-value="cos(">cos</button>
-      <button class="key key-fn" data-action="append" data-value="tan(">tan</button>
-      <button class="key key-fn" data-action="append" data-value="sqrt(">√</button>
-      <button class="key key-fn" data-action="append" data-value="^2">x²</button>
-
-      <button class="key key-fn" data-action="append" data-value="ln(">ln</button>
-      <button class="key key-fn" data-action="append" data-value="log(">log</button>
-      <button class="key key-fn" data-action="append" data-value="^">xʸ</button>
-      <button class="key key-fn" data-action="append" data-value="π">π</button>
-      <button class="key key-fn" data-action="append" data-value="e">e</button>
-
-      <button class="key key-num" data-action="digit" data-digit="7">7</button>
-      <button class="key key-num" data-action="digit" data-digit="8">8</button>
-      <button class="key key-num" data-action="digit" data-digit="9">9</button>
-      <button class="key key-op" data-action="append" data-value="×">×</button>
-      <button class="key key-op" data-action="append" data-value="−">−</button>
-
-      <button class="key key-num" data-action="digit" data-digit="4">4</button>
-      <button class="key key-num" data-action="digit" data-digit="5">5</button>
-      <button class="key key-num" data-action="digit" data-digit="6">6</button>
-      <button class="key key-op" data-action="append" data-value="+">+</button>
-      <button class="key key-fn" data-action="toggle-angle">DEG</button>
-
-      <button class="key key-num" data-action="digit" data-digit="1">1</button>
-      <button class="key key-num" data-action="digit" data-digit="2">2</button>
-      <button class="key key-num" data-action="digit" data-digit="3">3</button>
-      <button class="key key-fn" data-action="append" data-value="!">x!</button>
-
-      <button class="key key-num key-zero" data-action="digit" data-digit="0">0</button>
-      <button class="key key-num" data-action="decimal">.</button>
-      <button class="key key-fn" data-action="append" data-value="%">%</button>
-      <button class="key key-fn" data-action="append" data-value="^(-1)">1/x</button>
-
-      <button class="key key-equals" data-action="equals">=</button>
+        <h3>About</h3>
+        <details class="settings-card">
+          <summary>
+            <span>Calculator<small>© <span id="copyright-year"></span> Tally Calculator</small></span>
+          </summary>
+          <div class="about-details">
+            <p>A simple, responsive calculator with scientific, graphing, programmer, date, and unit conversion tools.</p>
+            <p>Version <span id="app-version">1.0.0</span></p>
+            <a href="https://github.com/MmabathoT/Calculator-App-Purple/issues" target="_blank" rel="noopener noreferrer">Send feedback</a>
+            <p>To learn more or contribute, visit the <a href="https://github.com/MmabathoT/Calculator-App-Purple" target="_blank" rel="noopener noreferrer">project on GitHub</a>.</p>
+          </div>
+        </details>
+      </section>
     </div>
 
   </main>
